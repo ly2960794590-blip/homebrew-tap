@@ -1,0 +1,21 @@
+name: Install test
+on:
+  push:
+  workflow_dispatch:
+jobs:
+  install:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-15, macos-26]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Install exactly as the README says
+        run: brew install ly2960794590-blip/tap/wsnap
+      - name: Formula test
+        run: brew test ly2960794590-blip/tap/wsnap
+      - name: Run it
+        run: |
+          which wsnap
+          wsnap version
+          wsnap doctor || true
